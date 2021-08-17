@@ -23,8 +23,8 @@ describe("Wyszukiwarka", function () {
     let newWidth = "225";
 
     await setWidth(newWidth);
-    const width = await $('#opona-szerokosc').getAttribute("value");
-    expect(width).toEqual(newWidth);
+    const width = $('#opona-szerokosc').getAttribute("value");
+    expect(await width).toEqual(newWidth);
     
   });
 
