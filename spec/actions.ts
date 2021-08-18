@@ -1,8 +1,9 @@
 import { browser, $, $$, element, by, protractor, ElementFinder } from "protractor";
 
+let until = protractor.ExpectedConditions;
+
 export async function select(idx, item) {
 
-    let until = protractor.ExpectedConditions;
     let itemToSelect = await element(by.xpath(`//li[text()="${item}"]`))//
 
     await $$('span.k-select').get(idx).click();
@@ -15,30 +16,30 @@ export async function select(idx, item) {
 
 export async function getSelectedItem(item: ElementFinder, attribute: string) {
 
-    let until = protractor.ExpectedConditions;
-
     await browser.wait(until.presenceOf(item), 5000);
     return item.getAttribute(attribute);
 }
 
-export async function selectAll(items: string[]) {
 
-    let until = protractor.ExpectedConditions;
-    let itemToSelect = await element(by.xpath(`//li[text()="${items[0]}"]`))
+async function selectAll(width: string, height: string, radius: string) {
+    const dimensions = [width, height, radius];
+    let itemToSelect: ElementFinder;
+    for (let i=0;i<dimensions.length;i++) {
+        itemToSelect = await $$('input.k-input').get(i)
+        await fillItem(itemToSelect, dimensions[i]);
+    }
+}
 
-    await $$('span.k-select').get(0).click();
-    await browser.wait(until.elementToBeClickable(itemToSelect), 5000);				 
-    await browser.sleep(100);
-	await itemToSelect.click();
-	await browser.sleep(100);
-    itemToSelect = await element(by.xpath(`//li[text()="${items[1]}"]`));
-	await browser.wait(until.elementToBeClickable(itemToSelect), 5000);
-    await browser.sleep(100);
-	await itemToSelect.click();
-	await browser.sleep(100);
-    itemToSelect = await element(by.xpath(`//li[text()="${items[2]}"]`));
-    await browser.wait(until.elementToBeClickable(itemToSelect), 5000);
-    await browser.sleep(100);
-	await itemToSelect.click();
-	await browser.sleep(100);
+async function fillItem(item: ElementFinder, value: string) {
+    await browser.wait(until.elementToBeClickable(item), 2000);
+    await item.click();
+    await item.clear();
+    await item.sendKeys(value);
+    await $('h1#WyborOpon-Tytul').click()
+}
+
+export async function sendFilledForm(width: string, height: string, radius: string) {
+    await selectAll(width,height,radius);
+    await browser.wait(until.elementToBeClickable($('#btnSzukajOponyWgRozmiar')), 2000);
+    await $('#btnSzukajOponyWgRozmiar').click();``
 }
