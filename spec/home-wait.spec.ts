@@ -13,19 +13,17 @@ describe("Wyszukiwarka", function () {
     var until = protractor.ExpectedConditions;
     let itemToSelect = element(by.xpath(`//li[text()="${width}"]`))
     await $$('span.k-select').get(0).click();
-    await browser.wait(until.elementToBeClickable(itemToSelect), 5000);				 	
+    await browser.wait(until.visibilityOf($(`input[aria-owns="opona-szerokosc_listbox"][aria-expanded="true"]`)), 2000);
+    await browser.wait(until.elementToBeClickable(itemToSelect), 5000);		 	
     await itemToSelect.click();
 
   }
 
   it("powinna umożliwiać zmianę domyślnej szerokości opon", async function () {
-
-    let newWidth = "225";
-
+    const newWidth = "225";
     await setWidth(newWidth);
     const width = $('#opona-szerokosc').getAttribute("value");
     expect(await width).toEqual(newWidth);
-    
   });
 
 });
