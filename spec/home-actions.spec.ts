@@ -1,4 +1,6 @@
-import { browser, $, $$, element, by, protractor } from "protractor";
+import { browser, $, $$, element, by, protractor, ExpectedConditions } from "protractor";
+import { SearchComponent } from "./components/search";
+import { selectAll } from "./actions";
 
 describe("Wyszukiwarka", function () {
 
@@ -30,17 +32,21 @@ describe("Wyszukiwarka", function () {
   });
 
   it("powinna umożliwiać wyszukiwanie opon dla samochodów ciężarowych", async function () {
+    const diameters = ['225', '60', '16'];
     await $$('ul.WyborOponPrzyciski-Lista li').get(1).click();
-    const expectedText = "Dostawcze"
-    const iconClicked = await $('li.active span');
-    expect(iconClicked.getText()).toBe(expectedText);
+    await selectAll(diameters);
+    await $('#btnSzukajOponyWgRozmiar').click();
+    const header = await $('span.opony-small-top-label-opony').getText();
+    expect(header).toEqual('Opony');
   });
 
   it("powinna  umożliwiać wyszukiwanie opon dla samochodów terenowych", async function () {
+    const diameters = ['225', '60', '17'];
     await $$('ul.WyborOponPrzyciski-Lista li').get(2).click();
-    const expectedText = "4x4"
-    const iconClicked = await $('li.active span');
-    expect(iconClicked.getText()).toBe(expectedText);
+    await selectAll(diameters);
+    await $('#btnSzukajOponyWgRozmiar').click();
+    const header = await $('span.opony-small-top-label-opony').getText();
+    expect(header).toEqual('Opony');
   });
 
   it("powinna umożliwiać zmianę domyślnej szerokości opon", async function () {
