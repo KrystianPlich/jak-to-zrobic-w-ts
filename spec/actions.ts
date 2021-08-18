@@ -1,4 +1,4 @@
-import { browser, $, $$, element, by, protractor } from "protractor";
+import { browser, $, $$, element, by, protractor, ElementFinder } from "protractor";
 
 export async function select(idx, item) {
 
@@ -13,11 +13,10 @@ export async function select(idx, item) {
 	
 }
 
-export async function getSelectedItem(item, attribute) {
+export async function getSelectedItem(item: ElementFinder, attribute: string) {
 
     let until = protractor.ExpectedConditions;
-    let itemToSelect = item;
 
-    await browser.wait(until.presenceOf(itemToSelect), 5000);
-    return itemToSelect.getAttribute(attribute);
+    await browser.wait(until.presenceOf(item), 5000);
+    return item.getAttribute(attribute);
 }
