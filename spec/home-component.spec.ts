@@ -1,5 +1,6 @@
 import { browser, $, $$, element, by, protractor } from "protractor";
 import { SearchComponent } from "./components/search";
+import { getSelectedItem } from "./actions"
 
 describe("Wyszukiwarka", function () {
 
@@ -13,8 +14,8 @@ describe("Wyszukiwarka", function () {
   it("powinna umożliwiać zmianę domyślnej szerokości opon", async function () {
     const newWidth = "225";
     await searchComponent.selectWidth( newWidth);
-    const currentWidth = await $('#opona-szerokosc').getAttribute("value");
-    expect(currentWidth).toEqual(newWidth);
+    const currentWidth = getSelectedItem($('#opona-szerokosc'), 'value');
+    expect(await currentWidth).toEqual(newWidth);
   });
 
 });
